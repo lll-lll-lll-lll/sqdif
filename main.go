@@ -13,7 +13,7 @@ import (
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "hello"
+	app.Name = "sql-diff"
 	app.Usage = "Generate SQL diff"
 	app.Flags = []cli.Flag{
 		&cli.StringFlag{
