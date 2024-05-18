@@ -1,4 +1,5 @@
 # sqdif
+This CLI tool, named `sqdif`, is designed to parse a specified SQL file and generate dummy data based on its content. Users have the ability to specify the path to the output file, whether to overwrite an existing output file, and the prompt to be passed to the GPT-4 API.
 
 
 ## Prerequisites
@@ -9,7 +10,7 @@ To run this program, you will need the following prerequisites:
 ## Usage
 The program can be executed from the command line with the following options:
 - --sql-file: Path to the SQL file to process
-- --output-file: Path to the output file
+- --output-file: Path to the output file (optional)
 - --override: Flag to indicate whether to overwrite the existing output file (optional)
 - --prompt: Flag to specify the prompt to be passed to GPT (optional)
 ## License
