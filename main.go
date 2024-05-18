@@ -11,7 +11,7 @@ import (
 	"github.com/urfave/cli"
 )
 
-const prompt = `
+const defaultPrompt = `
 Please generate dummy data for up to 100 rows based on SQL table definitions.
 `
 
@@ -32,6 +32,10 @@ func main() {
 			Name:  "override",
 			Usage: "Override the output file if it already exists",
 		},
+		&cli.StringFlag{
+			Name:  "prompt",
+			Usage: "prompt to use for GPT-4 API",
+		},
 	}
 	app.Action = func(c *cli.Context) error {
 		gptClient, err := gpt.NewClient(os.Getenv("OPENAI_API_KEY"))
@@ -41,7 +45,10 @@ func main() {
 		sqlFile := c.String("sql-file")
 		outputFile := c.String("output-file")
 		override := c.Bool("override")
-
+		prompt := c.String("prompt")
+		if prompt == "" {
+			prompt = defaultPrompt
+		}
 		if !strings.HasSuffix(sqlFile, ".sql") {
 			log.Fatal("Invalid SQL file extension")
 		}
