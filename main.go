@@ -29,29 +29,32 @@ func main() {
 			Name:  "prompt",
 			Usage: "prompt to use for GPT-4 API",
 		},
-	}
-
-	apiKey := os.Getenv("OPENAI_API_KEY")
-	generator, err := gpt.NewSQLDiffGenerator(apiKey)
-	if err != nil {
-		log.Fatal(err)
+		&cli.StringFlag{
+			Name:  "api-key",
+			Usage: "API key for GPT-4 AP",
+		},
 	}
 
 	app.Action = func(c *cli.Context) error {
+
+		apiKey := c.String("api-key")
+		generator, err := gpt.NewSQLDiffGenerator(apiKey)
+		if err != nil {
+			log.Fatal(err)
+		}
 		sqlFile := c.String("sql-file")
 		outputFile := c.String("output-file")
 		override := c.Bool("override")
 		prompt := c.String("prompt")
 
-		err := generator.GenerateDiff(sqlFile, outputFile, prompt, override)
-		if err != nil {
+		if err := generator.GenerateDiff(sqlFile, outputFile, prompt, override); err != nil {
 			log.Fatal(err)
 		}
 
 		return nil
 	}
 
-	err = app.Run(os.Args)
+	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}
