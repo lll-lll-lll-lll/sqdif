@@ -10,8 +10,8 @@ import (
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "sql-diff"
-	app.Usage = "Generate SQL diff"
+	app.Name = "sqdif"
+	app.Usage = "Generate SQL diff using GPT-4 API"
 	app.Flags = []cli.Flag{
 		&cli.StringFlag{
 			Name:  "sql-file",

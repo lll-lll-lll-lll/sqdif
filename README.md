@@ -1,8 +1,11 @@
+# sqdif
 
 
 ## Prerequisites
-- Go 1.15 or higher
+To run this program, you will need the following prerequisites:
+- Go 1.18 or higher
 - OpenAI API key (set in the environment variable OPENAI_API_KEY)
+- Dependencies specified in the go.mod file
 ## Usage
 The program can be executed from the command line with the following options:
 - --sql-file: Path to the SQL file to process
