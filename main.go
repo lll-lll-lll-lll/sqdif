@@ -11,6 +11,10 @@ import (
 	"github.com/urfave/cli"
 )
 
+const prompt = `
+Please generate dummy data for up to 100 rows based on SQL table definitions.
+`
+
 func main() {
 	app := cli.NewApp()
 	app.Name = "sql-diff"
@@ -45,16 +49,12 @@ func main() {
 			log.Fatal("SQL file does not exist: ", sqlFile)
 		}
 
-		promptFile, err := os.ReadFile("prompt.txt")
-		if err != nil {
-			log.Fatal(err)
-		}
 		sqlContent, err := os.ReadFile(sqlFile)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		resp, err := gptClient.Do(context.Background(), string(promptFile)+"\n"+string(sqlContent))
+		resp, err := gptClient.Do(context.Background(), prompt+"\n"+string(sqlContent))
 		if err != nil {
 			log.Fatal(err)
 		}
