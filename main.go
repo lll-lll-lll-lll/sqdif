@@ -1,19 +1,12 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/sql-diff-bot/gpt"
 	"github.com/urfave/cli"
 )
-
-const defaultPrompt = `
-Please generate dummy data for up to 100 rows based on SQL table definitions.
-`
 
 func main() {
 	app := cli.NewApp()
@@ -37,56 +30,28 @@ func main() {
 			Usage: "prompt to use for GPT-4 API",
 		},
 	}
+
+	apiKey := os.Getenv("OPENAI_API_KEY")
+	generator, err := gpt.NewSQLDiffGenerator(apiKey)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	app.Action = func(c *cli.Context) error {
-		gptClient, err := gpt.NewClient(os.Getenv("OPENAI_API_KEY"))
-		if err != nil {
-			log.Fatal(err)
-		}
 		sqlFile := c.String("sql-file")
 		outputFile := c.String("output-file")
 		override := c.Bool("override")
 		prompt := c.String("prompt")
-		if prompt == "" {
-			prompt = defaultPrompt
-		}
-		if !strings.HasSuffix(sqlFile, ".sql") {
-			log.Fatal("Invalid SQL file extension")
-		}
-		if _, err := os.Stat(sqlFile); os.IsNotExist(err) {
-			log.Fatal("SQL file does not exist: ", sqlFile)
-		}
 
-		sqlContent, err := os.ReadFile(sqlFile)
+		err := generator.GenerateDiff(sqlFile, outputFile, prompt, override)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		resp, err := gptClient.Do(context.Background(), prompt+"\n"+string(sqlContent))
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		if override {
-			if _, err := os.Stat(outputFile); os.IsNotExist(err) {
-				log.Fatal("outputFile does not exist: ", sqlFile)
-			}
-			outputFile, err := os.Open(outputFile)
-			if err != nil {
-				log.Fatal(err)
-			}
-			defer outputFile.Close()
-			if _, err := outputFile.WriteString(resp.Choices[0].Message.Content); err != nil {
-				log.Fatal(err)
-			}
-			fmt.Println("Output file updated")
-		} else {
-			fmt.Println(resp.Choices[0].Message.Content)
-			return nil
-		}
 		return nil
 	}
 
-	err := app.Run(os.Args)
+	err = app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}
