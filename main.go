@@ -54,7 +54,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		res, err := gptClient.Do(context.Background(), string(promptFile)+"\n"+string(sqlContent))
+		resp, err := gptClient.Do(context.Background(), string(promptFile)+"\n"+string(sqlContent))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -68,21 +68,14 @@ func main() {
 				log.Fatal(err)
 			}
 			defer outputFile.Close()
-			if _, err := outputFile.WriteString(res.Choices[0].Text); err != nil {
+			if _, err := outputFile.WriteString(resp.Choices[0].Message.Content); err != nil {
 				log.Fatal(err)
 			}
 			fmt.Println("Output file updated")
 		} else {
-			f, err := os.Create(outputFile)
-			if err != nil {
-				log.Fatal(err)
-			}
-			f.WriteString(res.Choices[0].Text)
-			defer f.Close()
-			fmt.Println("Output file created")
+			fmt.Println(resp.Choices[0].Message.Content)
+			return nil
 		}
-
-		fmt.Printf("Generated SQL: %s\n", res.Choices[0].Text)
 		return nil
 	}
 

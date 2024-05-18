@@ -19,11 +19,17 @@ func NewClient(apiKey string) (*Client, error) {
 	return &Client{gptClient: client}, nil
 }
 
-func (c *Client) Do(ctx context.Context, prompt string) (openai.CompletionResponse, error) {
-	return c.gptClient.CreateCompletion(
+func (c *Client) Do(ctx context.Context, prompt string) (openai.ChatCompletionResponse, error) {
+	return c.gptClient.CreateChatCompletion(
 		ctx,
-		openai.CompletionRequest{
-			Model: openai.GPT4o, Prompt: prompt,
+		openai.ChatCompletionRequest{
+			Model: openai.GPT4,
+			Messages: []openai.ChatCompletionMessage{
+				{
+					Role:    openai.ChatMessageRoleUser,
+					Content: prompt,
+				},
+			},
 		},
 	)
 }

@@ -1,10 +1,5 @@
 
 
-# Feature
-- Read the contents of an SQL file
-- Generate new SQL using the OpenAI API
-- Write the result to an output file
-- Option to overwrite the output file
 ## Prerequisites
 - Go 1.15 or higher
 - OpenAI API key (set in the environment variable OPENAI_API_KEY)
