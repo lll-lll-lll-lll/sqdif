@@ -38,6 +38,10 @@ func (g *SQLDiffGenerator) GenerateDiff(sqlFile, outputFile, prompt string, over
 		return fmt.Errorf("SQL file does not exist: %s", sqlFile)
 	}
 
+	if _, err := os.Stat(outputFile); os.IsNotExist(err) {
+		return fmt.Errorf("output file does not exist: %s", outputFile)
+	}
+
 	sqlContent, err := os.ReadFile(sqlFile)
 	if err != nil {
 		return err
@@ -49,11 +53,7 @@ func (g *SQLDiffGenerator) GenerateDiff(sqlFile, outputFile, prompt string, over
 	}
 
 	if override {
-		if _, err := os.Stat(outputFile); os.IsNotExist(err) {
-			return fmt.Errorf("output file does not exist: %s", outputFile)
-		}
-
-		outputFile, err := os.Open(outputFile)
+		outputFile, err := os.Create(outputFile)
 		if err != nil {
 			return err
 		}
