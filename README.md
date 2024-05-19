@@ -13,7 +13,7 @@ The program can be executed from the command line with the following options:
 - `--sql-file`: This flag specifies the file to be passed to GPT-4.
 - `--output-file`: Path to the output file (optional)
 - `--override`: Flag to indicate whether to overwrite the existing output file (optional)
-- `--prompt`: Flag to specify the prompt to be passed to GPT-4 (optional)
+- `--prompt-path`: Flag to specify the prompt file path to be passed to GPT-4 (optional)
 - `--api-key`: The API key for the GPT-4 API
 
 ## Example
