@@ -1,4 +1,4 @@
-module github.com/sqdif
+module github.com/lll-lll-lll-lll/sqdif
 
 go 1.22
 
