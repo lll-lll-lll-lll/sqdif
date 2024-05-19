@@ -14,5 +14,10 @@ The program can be executed from the command line with the following options:
 - `--override`: Flag to indicate whether to overwrite the existing output file (optional)
 - `--prompt`: Flag to specify the prompt to be passed to GPT (optional)
 - `--api-key`: The API key for the GPT-4 API
+
+## Example
+```sh
+sqdif  --sql-file=./testdata/table.sql --output-file=./testdata/test.sql --api-key={api_key} --override=true
+```
 ## License
 This project is released under the MIT license.
