@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/lll-lll-lll-lll/sqdif/gpt"
 	"github.com/urfave/cli"
 )
 
@@ -38,7 +37,7 @@ func main() {
 	app.Action = func(c *cli.Context) error {
 
 		apiKey := c.String("api-key")
-		generator, err := gpt.NewSQLDiffGenerator(apiKey)
+		generator, err := NewSQLDiffGenerator(apiKey)
 		if err != nil {
 			log.Fatal(err)
 		}
