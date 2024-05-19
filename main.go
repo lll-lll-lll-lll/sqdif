@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/sqdif/gpt"
+	"github.com/lll-lll-lll-lll/sqdif/gpt"
 	"github.com/urfave/cli"
 )
 
