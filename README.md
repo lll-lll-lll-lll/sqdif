@@ -9,10 +9,11 @@ To run this program, you will need the following prerequisites:
 - Dependencies specified in the go.mod file
 ## Usage
 The program can be executed from the command line with the following options:
-- `--sql-file`: Path to the SQL file to process
+
+- `--sql-file`: This flag specifies the file to be passed to GPT-4.
 - `--output-file`: Path to the output file (optional)
 - `--override`: Flag to indicate whether to overwrite the existing output file (optional)
-- `--prompt`: Flag to specify the prompt to be passed to GPT (optional)
+- `--prompt`: Flag to specify the prompt to be passed to GPT-4 (optional)
 - `--api-key`: The API key for the GPT-4 API
 
 ## Example
