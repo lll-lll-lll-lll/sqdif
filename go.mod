@@ -1,4 +1,4 @@
-module github.com/sql-diff-bot
+module github.com/sqdif
 
 go 1.22
 

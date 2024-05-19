@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/sql-diff-bot/gpt"
+	"github.com/sqdif/gpt"
 	"github.com/urfave/cli"
 )
 
