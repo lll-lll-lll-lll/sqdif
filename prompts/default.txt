@@ -1,0 +1,2 @@
+Please create SQL that generates 100 rows of dummy data based solely on table information. 
+Do not generate anything other than SQL.

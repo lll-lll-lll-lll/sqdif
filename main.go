@@ -28,8 +28,8 @@ func main() {
 			Usage: "Override the output file if it already exists",
 		},
 		&cli.StringFlag{
-			Name:  "prompt",
-			Usage: "prompt to use for GPT-4 API",
+			Name:  "prompt-path",
+			Usage: "prompt file path to use for GPT-4 API",
 		},
 		&cli.StringFlag{
 			Name:  "api-key",
@@ -47,9 +47,9 @@ func main() {
 		sqlFile := c.String("sql-file")
 		outputFile := c.String("output-file")
 		override := c.Bool("override")
-		prompt := c.String("prompt")
+		promptPath := c.String("prompt-path")
 
-		if err := generator.Do(sqlFile, outputFile, prompt, override); err != nil {
+		if err := generator.Do(sqlFile, outputFile, promptPath, override); err != nil {
 			log.Fatal(err)
 		}
 

@@ -10,9 +10,7 @@ import (
 	"github.com/sashabaranov/go-openai"
 )
 
-const defaultPrompt = `
-Please create SQL that generates 100 rows of dummy data based solely on table information. 
-Do not generate anything other than SQL.`
+const defaultPromptPath = "./prompts/default.txt"
 
 type SQLDiffGenerator struct {
 	gptClient *openai.Client
@@ -28,9 +26,14 @@ func newGPTGenerator(apiKey string) (*SQLDiffGenerator, error) {
 	}, nil
 }
 
-func (g *SQLDiffGenerator) Do(sqlFile, outputFile, prompt string, override bool) error {
-	if prompt == "" {
-		prompt = defaultPrompt
+func (g *SQLDiffGenerator) Do(sqlFile, outputFile, promptPath string, override bool) error {
+	if promptPath == "" {
+		promptPath = defaultPromptPath
+	}
+
+	promptContent, err := os.ReadFile(promptPath)
+	if err != nil {
+		return err
 	}
 
 	if !strings.HasSuffix(sqlFile, ".sql") {
@@ -50,7 +53,7 @@ func (g *SQLDiffGenerator) Do(sqlFile, outputFile, prompt string, override bool)
 		return err
 	}
 
-	resp, err := g.doToGPT4(context.Background(), prompt+"\n"+string(sqlContent))
+	resp, err := g.doToGPT4(context.Background(), string(promptContent)+"\n"+string(sqlContent))
 	if err != nil {
 		return err
 	}
