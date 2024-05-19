@@ -7,8 +7,11 @@ import (
 	"github.com/urfave/cli"
 )
 
+const version = "0.2.5"
+
 func main() {
 	app := cli.NewApp()
+	app.Version = version
 	app.Name = "sqdif"
 	app.Usage = "Generate SQL diff using GPT-4 API"
 	app.Flags = []cli.Flag{
