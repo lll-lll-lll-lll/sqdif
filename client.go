@@ -2,30 +2,33 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/sashabaranov/go-openai"
 )
 
 const defaultPrompt = `
-Please generate dummy data for up to 100 rows based on SQL table definitions.
-`
+Please create SQL that generates 100 rows of dummy data based solely on table information. 
+Do not generate anything other than SQL.`
 
 type SQLDiffGenerator struct {
-	gptClient *Client
+	gptClient *openai.Client
 }
 
-func NewSQLDiffGenerator(apiKey string) (*SQLDiffGenerator, error) {
-	gptClient, err := NewClient(apiKey)
-	if err != nil {
-		return nil, err
+func newGPTGenerator(apiKey string) (*SQLDiffGenerator, error) {
+	if apiKey == "" {
+		return nil, errors.New("apiKey is required")
 	}
+	c := openai.NewClient(apiKey)
 	return &SQLDiffGenerator{
-		gptClient: gptClient,
+		gptClient: c,
 	}, nil
 }
 
-func (g *SQLDiffGenerator) GenerateDiff(sqlFile, outputFile, prompt string, override bool) error {
+func (g *SQLDiffGenerator) Do(sqlFile, outputFile, prompt string, override bool) error {
 	if prompt == "" {
 		prompt = defaultPrompt
 	}
@@ -47,7 +50,7 @@ func (g *SQLDiffGenerator) GenerateDiff(sqlFile, outputFile, prompt string, over
 		return err
 	}
 
-	resp, err := g.gptClient.Do(context.Background(), prompt+"\n"+string(sqlContent))
+	resp, err := g.doToGPT4(context.Background(), prompt+"\n"+string(sqlContent))
 	if err != nil {
 		return err
 	}
@@ -69,4 +72,19 @@ func (g *SQLDiffGenerator) GenerateDiff(sqlFile, outputFile, prompt string, over
 	}
 
 	return nil
+}
+
+func (c *SQLDiffGenerator) doToGPT4(ctx context.Context, prompt string) (openai.ChatCompletionResponse, error) {
+	return c.gptClient.CreateChatCompletion(
+		ctx,
+		openai.ChatCompletionRequest{
+			Model: openai.GPT4,
+			Messages: []openai.ChatCompletionMessage{
+				{
+					Role:    openai.ChatMessageRoleUser,
+					Content: prompt,
+				},
+			},
+		},
+	)
 }

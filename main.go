@@ -40,7 +40,7 @@ func main() {
 	app.Action = func(c *cli.Context) error {
 
 		apiKey := c.String("api-key")
-		generator, err := NewSQLDiffGenerator(apiKey)
+		generator, err := newGPTGenerator(apiKey)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -49,7 +49,7 @@ func main() {
 		override := c.Bool("override")
 		prompt := c.String("prompt")
 
-		if err := generator.GenerateDiff(sqlFile, outputFile, prompt, override); err != nil {
+		if err := generator.Do(sqlFile, outputFile, prompt, override); err != nil {
 			log.Fatal(err)
 		}
 
