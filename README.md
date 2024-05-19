@@ -1,6 +1,10 @@
 # sqdif
 This CLI takes an SQL file defining table information as input and uses GPT-4 to generate SQL for inserting dummy data.
 
+## Install 
+```sh
+go install github.com/lll-lll-lll-lll/sqdif@v0.2.6
+```
 
 ## Prerequisites
 To run this program, you will need the following prerequisites:
