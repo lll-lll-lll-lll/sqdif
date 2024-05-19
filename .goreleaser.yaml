@@ -1,4 +1,4 @@
-project_name: sql-diff
+project_name: sqdif
 env:
   - GO111MODULE=on
 before:
@@ -6,7 +6,7 @@ before:
     - go mod tidy
 builds:
   - main: .
-    binary: sql-diff
+    binary: sqdif
     ldflags:
       - -s -w
       - -X main.Version={{.Version}}
