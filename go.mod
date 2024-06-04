@@ -5,6 +5,7 @@ go 1.22
 require (
 	github.com/sashabaranov/go-openai v1.24.0
 	github.com/urfave/cli v1.22.15
+	github.com/urfave/cli/v2 v2.27.2
 )
 
 require (
