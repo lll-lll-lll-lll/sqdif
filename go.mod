@@ -3,7 +3,7 @@ module github.com/lll-lll-lll-lll/sqdif
 go 1.22
 
 require (
-	github.com/sashabaranov/go-openai v1.38.0
+	github.com/sashabaranov/go-openai v1.38.1
 	github.com/urfave/cli v1.22.15
 )
 
